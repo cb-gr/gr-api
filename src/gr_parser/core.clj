@@ -1,5 +1,6 @@
 (ns gr-parser.core
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str])
+  (:refer-clojure :exclude [sort]))
 
 (def delimitters
 (def ^:const delimitters
@@ -9,7 +10,7 @@
    :comma #", "
    :space #" "})
 
-(def fields [:first-name :last-name :gender :favorite-color :date-of-birth])
+(def fields [:last-name :first-name :gender :favorite-color :date-of-birth])
 (defrecord Person [first-name last-name gender favorite-color date-of-birth])
 
 (def date-of-birth-format (java.text.SimpleDateFormat. "MM/dd/yyyy"))
@@ -31,4 +32,18 @@
        (zipmap fields)
        (person)))
 
+(defmulti sort (fn [k people] k))
+
+(defmethod sort [:gender :last-name]
+  [_ people]
+  (sort-by (juxt :gender :last-name) people))
+
+(defmethod sort :date-of-birth
+  [_ people]
+  (sort-by :date-of-birth people))
+
+;; last name descending
+(defmethod sort :last-name
+  [_ people]
+  (reverse (sort-by :last-name people)))
 
