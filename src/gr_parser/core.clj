@@ -47,3 +47,16 @@
   [_ people]
   (reverse (sort-by :last-name people)))
 
+(def person-formatter
+  "Provides a mapping of field to a function that formats the field"
+  {:date-of-birth
+   (fn [dob]
+     (.format date-of-birth-format dob))})
+
+(defn format-record
+  [person]
+  (reduce-kv (fn [m k v]
+               (let [transform (get person-formatter k identity)]
+                 (assoc m k (transform v))))
+             {}
+             person))

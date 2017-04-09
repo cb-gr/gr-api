@@ -136,3 +136,17 @@
            :date-of-birth #inst "1993-05-18T05:00:00.000-00:00"}]
          (sut/sort :last-name test-people))
       "Sorted by last-name descending"))
+
+(deftest person-formatter-test
+  (is (= "05/18/1993"
+         ((:date-of-birth sut/person-formatter)
+          #inst "1993-05-18T05:00:00.000-00:00"))
+      "Date of birth formats as dd/MM/yyyy"))
+
+(deftest format-record-test
+  (is (= {:first-name "C",
+          :last-name "B",
+          :gender "Male",
+          :favorite-color "Blue",
+          :date-of-birth "05/18/1993"}
+         (sut/format-record (first test-people)))))
