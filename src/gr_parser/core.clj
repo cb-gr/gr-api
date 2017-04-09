@@ -2,7 +2,6 @@
   (:require [clojure.string :as str])
   (:refer-clojure :exclude [sort]))
 
-(def delimitters
 (def ^:const delimitters
   "A map of the record's type of delimitter to a regex to split the
   record"
@@ -60,6 +59,7 @@
                  (assoc m k (transform v))))
              {}
              person))
+
 (def console-format "%10s %10s %8s %20s %20s")
 
 (defn print-formatted
@@ -74,3 +74,21 @@
       (print-formatted console-format
                        (for [f fields]
                          (get formatted-person f nil))))))
+
+(defn -main
+  [file-path delimitter user-sort]
+  {:pre [(#{:pipe :comma :space} delimitter)]}
+  (let [file (slurp file-path)
+        lines (str/split file #"\n")]
+    (->> lines
+         (map (partial parse-line (delimitter delimitters)))
+         (sort user-sort)
+         (console-print))))
+
+(comment
+  (reset! people (-main "pipe_delimitted" :pipe [:gender :last-name]))
+
+  (console-print (sort [:gender :last-name] @people))
+  (console-print (sort :date-of-birth @people))
+
+  )
