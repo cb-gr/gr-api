@@ -60,3 +60,17 @@
                  (assoc m k (transform v))))
              {}
              person))
+(def console-format "%10s %10s %8s %20s %20s")
+
+(defn print-formatted
+  [format-str fields]
+  (println (apply format format-str fields)))
+
+(defn console-print
+  [people]
+  (print-formatted console-format (map name fields))
+  (doseq [p people]
+    (let [formatted-person (format-record p)]
+      (print-formatted console-format
+                       (for [f fields]
+                         (get formatted-person f nil))))))

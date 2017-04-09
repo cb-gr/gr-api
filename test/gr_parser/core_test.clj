@@ -150,3 +150,8 @@
           :favorite-color "Blue",
           :date-of-birth "05/18/1993"}
          (sut/format-record (first test-people)))))
+
+(deftest console-print-test
+  (let [output (with-out-str (sut/console-print test-people))]
+    (is (= " last-name first-name   gender       favorite-color        date-of-birth\n         B          C     Male                 Blue           05/18/1993\n         S          R   Female                Green           09/10/1993\n         R          B     Male               Orange           02/15/1982\n         G          S   Female                  Red           01/10/1994\n         C          E     Male                 Blue           03/13/1987\n"
+           output))))
