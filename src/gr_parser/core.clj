@@ -11,7 +11,7 @@
    :space #" "})
 
 (def fields [:last-name :first-name :gender :favorite-color :date-of-birth])
-(defrecord Person [first-name last-name gender favorite-color date-of-birth])
+(defrecord Person [last-name first-name gender favorite-color date-of-birth])
 
 (def date-of-birth-format (java.text.SimpleDateFormat. "MM/dd/yyyy"))
 
