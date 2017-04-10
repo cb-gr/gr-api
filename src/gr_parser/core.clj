@@ -1,6 +1,8 @@
 (ns gr-parser.core
-  (:require [clojure.string :as str])
-  (:refer-clojure :exclude [sort]))
+  (:require [clojure.string :as str]
+            [clojure.edn :refer [read-string]])
+  (:refer-clojure :exclude [sort])
+  (:gen-class))
 
 (def ^:const delimitters
   "A map of the record's type of delimitter to a regex to split the
@@ -77,8 +79,11 @@
 
 (defn -main
   [file-path delimitter user-sort]
-  {:pre [(#{:pipe :comma :space} delimitter)]}
-  (let [file (slurp file-path)
+  {:pre [(#{"pipe" "comma" "space"} delimitter)
+         (#{"[:gender :last-name]" ":last-name" ":date-of-birth"} user-sort)]}
+  (let [delimitter (keyword (read-string delimitter))
+        user-sort (read-string user-sort)
+        file (slurp file-path)
         lines (str/split file #"\n")]
     (->> lines
          (map (partial parse-line (delimitter delimitters)))
@@ -86,7 +91,7 @@
          (console-print))))
 
 (comment
-  (reset! people (-main "pipe_delimitted" :pipe [:gender :last-name]))
+  (reset! people (-main "pipe_delimitted" "pipe" "[:gender :last-name]"))
 
   (console-print (sort [:gender :last-name] @people))
   (console-print (sort :date-of-birth @people))
