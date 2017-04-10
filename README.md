@@ -33,7 +33,7 @@ curl -i -H 'Content-Type: application/json' -XPOST 'http://localhost:8080/record
   "data": "Bui | Chris | Male | BLUE | 5/18/1111"
 }
 '
-``
+```
 
 ### Sorted Records
 ```
