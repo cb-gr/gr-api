@@ -40,4 +40,5 @@
 
 (def wrapped-app (make-app people-db))
 
-(defonce server (jetty/run-jetty #'wrapped-app {:join? false :port 8080}))
+(defn -main []
+  (jetty/run-jetty #'wrapped-app {:join? false :port 8080}))
