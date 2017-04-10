@@ -8,4 +8,5 @@
                  [cheshire "5.7.0"]
                  [ring/ring-core "1.5.0"]
                  [ring/ring-defaults "0.2.3"]
-                 [ring/ring-jetty-adapter "1.5.0"]])
+                 [ring/ring-jetty-adapter "1.5.0"]
+                 [ring/ring-mock "0.3.0"]])
