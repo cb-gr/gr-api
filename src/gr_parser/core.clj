@@ -89,11 +89,3 @@
          (map (partial parse-line (delimitter delimitters)))
          (sort user-sort)
          (console-print))))
-
-(comment
-  (reset! people (-main "pipe_delimitted" "pipe" "[:gender :last-name]"))
-
-  (console-print (sort [:gender :last-name] @people))
-  (console-print (sort :date-of-birth @people))
-
-  )
