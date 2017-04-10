@@ -1,11 +1,14 @@
 (ns gr-parser.web
   (:require [compojure.core :refer :all]
-            [ring.adapter.jetty :as jetty]))
+            [ring.adapter.jetty :as jetty]
+            [ring.middleware.defaults :refer :all]))
 
 (defn success-response [body]
   {:body body
    :status 200
    :headers {"Content-Type" "application/json"}})
+
+(defonce people-db (atom []))
 
 (defroutes app
   (POST "/records" []
@@ -17,4 +20,6 @@
   (GET "/records/name" []
        (success-response "name")))
 
-(defonce server (jetty/run-jetty #'app {:join? false :port 8080}))
+(def wrapped-app (wrap-defaults app api-defaults))
+
+(defonce server (jetty/run-jetty #'wrapped-app {:join? false :port 8080}))
